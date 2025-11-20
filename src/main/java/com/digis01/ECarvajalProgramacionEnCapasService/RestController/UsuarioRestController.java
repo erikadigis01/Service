@@ -191,6 +191,8 @@ public class UsuarioRestController {
             
             result = usuarioDAOImplementation.GetAllDinamico(campo, valor);
             result.correct = true;
+            
+            
             result.errorMessage = "Se obtuvieron usuarios";
             result.status = 200;
         
