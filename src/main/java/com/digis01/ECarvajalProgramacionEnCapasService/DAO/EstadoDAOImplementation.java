@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -31,7 +32,11 @@ public class EstadoDAOImplementation  implements IEstadoDAO{
             
                 result.correct = true;
                 result.objects = new ArrayList<>();
-                result.objects = estados;
+                
+                result.objects = estados.stream()
+                                        .map(EstadoJPA -> (Object) EstadoJPA)
+                                        .collect(Collectors.toList());
+             
             
             } 
         

@@ -1,6 +1,7 @@
 package com.digis01.ECarvajalProgramacionEnCapasService.JPA;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -21,20 +22,25 @@ public class DireccionJPA {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "iddireccion", nullable = false)
+    @JsonProperty("idDireccion")
     private int IdDireccion;
     
     @Column(name = "calle", nullable = false)
+    @JsonProperty("calle")
     private String Calle;
     
     @Column(name = "numerointerior", nullable = true)
+    @JsonProperty("numeroInterior")
     private String NumeroInterior;
     
     @Column(name = "numeroexterior", nullable = false)
+    @JsonProperty("numeroExterior")
     private String NumeroExterior;
     
     
     @ManyToOne
     @JoinColumn(name = "idcolonia")
+    @JsonProperty("Colonia")
     public ColoniaJPA Colonia;
     
     
@@ -42,6 +48,7 @@ public class DireccionJPA {
     @ManyToOne()
     @Cascade(CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "idusuario")
+    @JsonProperty("UsuarioJPA")
     public UsuarioJPA UsuarioJPA;
     
     //Constructor 

@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -32,7 +33,12 @@ public class ColoniaDAOImplementation  implements IColoniaDAO{
             
             if(!colonias.isEmpty()){
                 result.objects = new ArrayList<>();
-                result.objects = colonias;
+                
+                result.objects = colonias.stream()
+                                        .map(ColoniaJPA -> (Object) ColoniaJPA)
+                                        .collect(Collectors.toList());
+             
+                
                 result.correct = true;
             } 
         
@@ -65,7 +71,13 @@ public class ColoniaDAOImplementation  implements IColoniaDAO{
             
             if(!colonias.isEmpty()){
                 result.objects = new ArrayList<>();
-                result.objects = colonias;
+                
+                result.objects = colonias.stream()
+                                        .map(ColoniaJPA -> (Object) ColoniaJPA)
+                                        .collect(Collectors.toList());
+             
+                
+                
                 result.correct = true;
             } 
         

@@ -35,7 +35,7 @@ public class EstadoRestController {
             } else {
 
                 result.errorMessage = "No hay estados con ese id de pais";
-                result.status = 204;
+                result.status = 404;
 
             }
             

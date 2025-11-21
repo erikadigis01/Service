@@ -35,7 +35,7 @@ public class ColoniaRestController {
             } else {
 
                 result.errorMessage = "No hay colonias en ese municipio";
-                result.status = 204;
+                result.status = 404;
 
             }
             
@@ -72,7 +72,7 @@ public class ColoniaRestController {
             } else {
 
                 result.errorMessage = "No hay colonias con ese codigo postal";
-                result.status = 204;
+                result.status = 404;
 
             }
             

@@ -1,6 +1,7 @@
 package com.digis01.ECarvajalProgramacionEnCapasService.JPA;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,15 +18,18 @@ public class EstadoJPA {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idestado", nullable = false)
+    @JsonProperty("idEstado")
     private int IdEstado;
     
     @Column(name = "nombre", nullable = false)
+    @JsonProperty("nombre")
     private String Nombre;
     
     
     
     @ManyToOne
     @JoinColumn(name = "idpais")
+    @JsonProperty("Pais")
     public PaisJPA Pais;
     
     public EstadoJPA(){

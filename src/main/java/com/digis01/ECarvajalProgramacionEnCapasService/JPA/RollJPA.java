@@ -1,5 +1,6 @@
 package com.digis01.ECarvajalProgramacionEnCapasService.JPA;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,11 +20,13 @@ public class RollJPA {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("idRoll")
     @Column(name = "idroll")
     
     private int IdRoll;
     
     @Column(name = "nombreroll", nullable = false)
+    @JsonProperty("nombreRoll")
     private String NombreRoll;
     
 //    @OneToMany(mappedBy = "roll", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

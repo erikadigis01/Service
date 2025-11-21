@@ -34,7 +34,7 @@ public class MunicipioRestController {
             } else {
 
                 result.errorMessage = "No hay municipios con ese id de estado";
-                result.status = 204;
+                result.status = 404;
 
             }
             

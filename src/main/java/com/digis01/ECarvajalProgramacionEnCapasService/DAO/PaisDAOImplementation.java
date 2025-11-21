@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -28,7 +29,9 @@ public class PaisDAOImplementation implements IPaisDAO{
              
              result.objects = new ArrayList<>();
              
-             result.objects = paisesJPA;
+             result.objects = paisesJPA.stream()
+                                        .map(PaisJPA -> (Object) PaisJPA)
+                                        .collect(Collectors.toList());
              
              result.correct = true;
         

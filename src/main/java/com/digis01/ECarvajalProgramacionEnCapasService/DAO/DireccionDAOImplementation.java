@@ -41,6 +41,12 @@ public class DireccionDAOImplementation implements IDireccionDAO {
                     result.errorMessage = ex.getLocalizedMessage();
                 
                 }
+            }else {
+            
+                result.correct =  false;
+                result.errorMessage = "Entidad no encontrada";
+            
+            
             }
         
         

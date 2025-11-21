@@ -8,6 +8,7 @@ import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -30,7 +31,9 @@ public class UsuarioDAOImplementation implements IUsuarioDAO{
              
              result.objects = new ArrayList<>();
              
-             result.objects = usuariosJPA;
+             result.objects = usuariosJPA.stream()
+                                        .map(UsuarioJPA -> (Object) UsuarioJPA)
+                                        .collect(Collectors.toList());
              
              result.correct = true;
         
@@ -234,8 +237,10 @@ public class UsuarioDAOImplementation implements IUsuarioDAO{
             
             result.objects = new ArrayList<>();
             
-            result.objects = usuariosJPA;
-            
+            result.objects = usuariosJPA.stream()
+                                        .map(UsuarioJPA -> (Object) UsuarioJPA)
+                                        .collect(Collectors.toList());
+           
             result.correct = true;
        
        

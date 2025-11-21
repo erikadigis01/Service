@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -28,7 +29,9 @@ public class RollDAOImplementation  implements IRollDAO{
              
              result.objects = new ArrayList<>();
              
-             result.objects = rollesJPA;
+             result.objects = rollesJPA.stream()
+                                        .map(RollJPA -> (Object) RollJPA)
+                                        .collect(Collectors.toList());
              
              result.correct = true;
         

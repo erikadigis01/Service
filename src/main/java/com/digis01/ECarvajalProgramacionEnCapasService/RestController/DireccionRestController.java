@@ -29,9 +29,18 @@ public class DireccionRestController {
          try {
              
             result = direccionDAOImplementation.GetById(idDireccion);
-            result.correct = true;
-            result.errorMessage = "Se encontro una direccion con ese Id";
-            result.status = 200;
+            
+            if(result.correct == true){
+                result.correct = true;
+                result.errorMessage = "Se encontro una direccion con ese Id";
+                result.status = 200;
+            } else {
+                
+                result.correct = false;
+                result.errorMessage = "Se  no encontro una direccion con ese Id";
+                result.status = 404;
+            
+            }
          
          
          } catch (Exception ex) {
