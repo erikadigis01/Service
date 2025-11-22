@@ -54,7 +54,8 @@ public class ColoniaDAOImplementation  implements IColoniaDAO{
         
         return result;
     }
-
+    
+    //este hace el join debe regresar sus entidades padre 
     @Override
     public Result GetByCodigoPostal(String codigoPostal) {
         

@@ -136,17 +136,26 @@ public class UsuarioRestController {
          try {
              
             result = usuarioDAOImplementation.GetById(idUsuario);
-            result.correct = true;
-            result.errorMessage = "Se encontro un usuario con ese Id";
-            result.status = 200;
-         
+            
+            if(result.object != null){
+                
+                result.errorMessage = "Se encontro un usuario con ese Id";
+                result.status = 200;
+                
+            } else {
+            
+                result.correct = false;
+                result.status = 404;
+                result.errorMessage = "No se encontro un usuario";
+            
+            }
          
          } catch (Exception ex) {
          
             result.correct = false;
             result.errorMessage = ex.getLocalizedMessage();
             result.ex = ex;
-            result.status = 404;
+            result.status = 500;
          
          }
          

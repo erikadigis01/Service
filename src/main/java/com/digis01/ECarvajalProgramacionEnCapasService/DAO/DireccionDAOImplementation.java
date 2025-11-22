@@ -100,9 +100,11 @@ public class DireccionDAOImplementation implements IDireccionDAO {
                     
                 try {
                     
+                    int id = direccionJPA.UsuarioJPA.getIdUsuario();
                     entityManager.remove(direccionJPA);
                     
                     result.correct = true;
+                    result.object = id;
                     
                 
                 } catch (PersistenceException ex) {

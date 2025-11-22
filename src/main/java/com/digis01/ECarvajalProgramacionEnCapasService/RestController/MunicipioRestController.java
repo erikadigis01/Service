@@ -4,6 +4,7 @@ import com.digis01.ECarvajalProgramacionEnCapasService.DAO.MunicipioDAOImplement
 import com.digis01.ECarvajalProgramacionEnCapasService.JPA.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ public class MunicipioRestController {
     @Autowired
     MunicipioDAOImplementation municipioDAOImplementation;
     
+    @CrossOrigin(origins = "http://localhost:8081")
     @GetMapping("/estado/{idEstado}")
     public ResponseEntity GetByIdEstado(@PathVariable("idEstado") int idEstado) {
     

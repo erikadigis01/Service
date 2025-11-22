@@ -173,6 +173,10 @@ public class UsuarioDAOImplementation implements IUsuarioDAO{
                     result.errorMessage = ex.getLocalizedMessage();
                 
                 }
+            } else {
+            
+                result.correct = false;
+            
             }
         
         
