@@ -1,6 +1,7 @@
 package com.digis01.ECarvajalProgramacionEnCapasService.DAO;
 
 import com.digis01.ECarvajalProgramacionEnCapasService.JPA.DireccionJPA;
+import com.digis01.ECarvajalProgramacionEnCapasService.JPA.DireccionUsuarioAddUpdateDTO;
 import com.digis01.ECarvajalProgramacionEnCapasService.JPA.Result;
 import com.digis01.ECarvajalProgramacionEnCapasService.JPA.UsuarioJPA;
 import jakarta.persistence.EntityManager;
@@ -63,12 +64,13 @@ public class DireccionDAOImplementation implements IDireccionDAO {
     
     @Transactional
     @Override
-    public Result Add(DireccionJPA direccion) {
+    public Result Add(DireccionUsuarioAddUpdateDTO direccion) {
         
         Result result = new Result();
         
         try {
-        
+            
+            
             
             entityManager.persist(direccion);
             result.correct =  true;
@@ -147,7 +149,7 @@ public class DireccionDAOImplementation implements IDireccionDAO {
             if(direccionfind == null) {
             
                 //se agrega
-                Add(direccion);
+                //Add(direccion);
             
             } else {
             

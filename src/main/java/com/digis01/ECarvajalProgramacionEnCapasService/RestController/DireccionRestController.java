@@ -2,6 +2,7 @@ package com.digis01.ECarvajalProgramacionEnCapasService.RestController;
 
 import com.digis01.ECarvajalProgramacionEnCapasService.DAO.DireccionDAOImplementation;
 import com.digis01.ECarvajalProgramacionEnCapasService.JPA.DireccionJPA;
+import com.digis01.ECarvajalProgramacionEnCapasService.JPA.DireccionUsuarioAddUpdateDTO;
 import com.digis01.ECarvajalProgramacionEnCapasService.JPA.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -57,17 +58,19 @@ public class DireccionRestController {
      }
      
      
-     @PostMapping 
-    public ResponseEntity Add(@RequestBody  DireccionJPA direccion) {
+    @PostMapping
+    public ResponseEntity Add(@RequestBody DireccionUsuarioAddUpdateDTO direccion) {
         
          Result result = new Result();
          
          try {
-             
+            
+            
             result = direccionDAOImplementation.Add(direccion);
             result.correct = true;
             result.errorMessage = "Se agrego una nueva direccion correctamente";
             result.status = 201;
+            result.object = direccion;
          
          
          } catch (Exception ex) {

@@ -17,7 +17,7 @@ import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name  = "DIRECCION")
-public class DireccionJPA {
+public class DireccionUsuarioAddUpdateDTO {
     
    
    
@@ -51,15 +51,15 @@ public class DireccionJPA {
     @Cascade(CascadeType.SAVE_UPDATE)
     @JoinColumn(name = "idusuario")
     @JsonProperty("UsuarioJPA")
-    @JsonIgnore
+    
     public UsuarioJPA UsuarioJPA;
     
     //Constructor 
-    public DireccionJPA(){
+    public DireccionUsuarioAddUpdateDTO(){
     
     }
     
-    public DireccionJPA(int IdDireccion, String Calle, String NumeroInterior, String NumeroExterior){
+    public DireccionUsuarioAddUpdateDTO(int IdDireccion, String Calle, String NumeroInterior, String NumeroExterior){
         this.IdDireccion = IdDireccion;
         this.Calle = Calle;
         this.NumeroInterior = NumeroInterior;
