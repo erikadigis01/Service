@@ -114,7 +114,7 @@ public class DireccionRestController {
     }
     
     @PutMapping("/update")
-     public ResponseEntity Update(@RequestBody  DireccionJPA direccion) {
+     public ResponseEntity Update(@RequestBody  DireccionUsuarioAddUpdateDTO direccion) {
          
          Result result = new Result();
          
@@ -124,6 +124,7 @@ public class DireccionRestController {
             result.correct = true;
             result.errorMessage = "Se actualizo la direccion correctamente";
             result.status = 202;
+            result.object = direccion;
          
          
          } catch (Exception ex) {

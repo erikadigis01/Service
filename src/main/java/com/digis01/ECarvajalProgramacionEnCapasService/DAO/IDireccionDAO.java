@@ -10,6 +10,6 @@ public interface IDireccionDAO {
     Result GetById(int idDireccion);
     Result Add(DireccionUsuarioAddUpdateDTO direccion);
     Result Delete(int idDireccion);
-    Result Update(DireccionJPA direccion);
+    Result Update(DireccionUsuarioAddUpdateDTO direccion);
 
 }

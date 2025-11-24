@@ -137,7 +137,7 @@ public class DireccionDAOImplementation implements IDireccionDAO {
     
     @Transactional
     @Override
-    public Result Update(DireccionJPA direccion) {
+    public Result Update(DireccionUsuarioAddUpdateDTO direccion) {
        Result result = new Result();
         
         try {
@@ -149,7 +149,7 @@ public class DireccionDAOImplementation implements IDireccionDAO {
             if(direccionfind == null) {
             
                 //se agrega
-                //Add(direccion);
+                Add(direccion);
             
             } else {
             
