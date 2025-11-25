@@ -3,6 +3,8 @@ package com.digis01.ECarvajalProgramacionEnCapasService.RestController;
 import com.digis01.ECarvajalProgramacionEnCapasService.DAO.UsuarioDAOImplementation;
 import com.digis01.ECarvajalProgramacionEnCapasService.JPA.Result;
 import com.digis01.ECarvajalProgramacionEnCapasService.JPA.UsuarioJPA;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -163,14 +165,14 @@ public class UsuarioRestController {
      }
      
      @PatchMapping("/{idUsuario}")
-     public ResponseEntity UpdateImagen(@RequestBody String imagen,
+     public ResponseEntity UpdateImagen(@RequestBody HashMap<String, Object> imagen,
              @PathVariable("idUsuario") int idUsuario) {
      
          Result result = new Result();
          
          try {
-             
-            result = usuarioDAOImplementation.UpdateImagen(imagen, idUsuario);
+            String imagenUpdate = (String) imagen.get("imagen"); 
+            result = usuarioDAOImplementation.UpdateImagen(imagenUpdate, idUsuario);
             result.correct = true;
             result.errorMessage = "Se actualizo correctamente la imagen";
             result.status = 200;
@@ -189,15 +191,14 @@ public class UsuarioRestController {
      
      }
      
-    @GetMapping("/{campo}/{valor}")
-    public ResponseEntity GetAllDinamico(@PathVariable("campo") String campo,
-                            @PathVariable("valor") String valor) {
+    @GetMapping("/dinamico")
+    public ResponseEntity GetAllDinamico(@RequestBody  UsuarioJPA usuario) {
     
         Result result = new Result();
         
         try {
             
-            result = usuarioDAOImplementation.GetAllDinamico(campo, valor);
+            result = usuarioDAOImplementation.GetAllDinamico(usuario);
             result.correct = true;
             
             

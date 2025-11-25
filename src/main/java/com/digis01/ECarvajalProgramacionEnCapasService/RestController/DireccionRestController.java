@@ -6,6 +6,7 @@ import com.digis01.ECarvajalProgramacionEnCapasService.JPA.DireccionUsuarioAddUp
 import com.digis01.ECarvajalProgramacionEnCapasService.JPA.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,7 @@ public class DireccionRestController {
     @Autowired
     DireccionDAOImplementation direccionDAOImplementation;
     
+    @CrossOrigin(origins = "http://localhost:8081")
     @GetMapping("/{idDireccion}")
      public ResponseEntity GetById(@PathVariable("idDireccion") int idDireccion) {
      

@@ -199,12 +199,14 @@ public class UsuarioDAOImplementation implements IUsuarioDAO{
         try {
         
             UsuarioJPA usuarioJPA = entityManager.find(UsuarioJPA.class, idUsuario);
+            System.out.print(imagen);
             usuarioJPA.setImagen(imagen);
             
             try {
                 
-                entityManager.flush();
+                entityManager.merge(usuarioJPA);
                 result.correct = true;
+                result.object = usuarioJPA;
             
             
             } catch (PersistenceException ex) {
@@ -228,13 +230,28 @@ public class UsuarioDAOImplementation implements IUsuarioDAO{
     }
 
     @Override
-    public Result GetAllDinamico(String campo, String valor) {
+    public Result GetAllDinamico(UsuarioJPA usuario) {
        Result result = new Result();
        
        try {
            
-           TypedQuery<UsuarioJPA> queryUsuario = entityManager.createQuery("FROM UsuarioJPA WHERE " + campo + " LIKE :valor", UsuarioJPA.class)
-                    .setParameter("valor", "%" + valor + "%");
+           //hacer los campos concatenados
+           
+           String consulta = "FROM UsuarioJPA WHERE";
+           if(usuario.getNombre() != null) {
+               
+               consulta =  consulta + " Nombre LIKE :valor1 ";
+           
+           }
+           if (usuario.getApellidoPaterno() != null) {
+               
+               consulta = consulta + "or ApellidoPaterno LIKE : valor2 ";
+           
+           }
+           
+           
+           TypedQuery<UsuarioJPA> queryUsuario = entityManager.createQuery(consulta, UsuarioJPA.class)
+                   .setParameter("valor1", "%" + usuario.getNombre() + "%");
             
             //Resultado del JPA
             List<UsuarioJPA> usuariosJPA = queryUsuario.getResultList();
