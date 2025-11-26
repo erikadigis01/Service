@@ -63,6 +63,8 @@ public class UsuarioDAOImplementation implements IUsuarioDAO{
        try{
            
            usuario.Direccion.get(0).UsuarioJPA  = usuario;
+           //se agrega por defecto con 1
+           usuario.setStatus(1);
            entityManager.persist(usuario);
         
         
