@@ -13,5 +13,6 @@ public interface IUsuarioDAO {
     Result GetById(int idUsuario);
     Result UpdateImagen(String imagen, int idUsuario);
     Result GetAllDinamico(UsuarioJPA usuario);
+    Result UpdateStatus(UsuarioJPA usuario);
 
 }

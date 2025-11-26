@@ -71,7 +71,8 @@ public class UsuarioJPA {
     @OneToMany(mappedBy = "UsuarioJPA", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<DireccionJPA> Direccion = new ArrayList<>();
     
-    
+    @Column(name = "status", nullable = true)
+    private int Status;
     
     //Constructores 
     public UsuarioJPA(){
@@ -80,7 +81,7 @@ public class UsuarioJPA {
     
     public UsuarioJPA( int IdUsuario, String UserName, String Nombre, String ApellidoPaterno, String ApellidoMaterno, String Email, 
 
-        String Password, Date FechaNacimiento, char Sexo, String Telefono, String Celular, String Curp, String Imagen){
+        String Password, Date FechaNacimiento, char Sexo, String Telefono, String Celular, String Curp, String Imagen, int Status){
         
         this.IdUsuario = IdUsuario;
         this.UserName = UserName;
@@ -95,6 +96,7 @@ public class UsuarioJPA {
         this.Celular = Celular;
         this.Curp = Curp;
         this.Imagen = Imagen;
+        this.Status = Status;
       
     }
     //Getters y setters
@@ -192,6 +194,17 @@ public class UsuarioJPA {
     public String getImagen(){
     
         return Imagen;
+        
+    }
+    
+    public void setStatus(int Status){
+        
+        this.Status = Status;
+    
+    }
+    public int getStatus(){
+    
+        return Status;
         
     }
      

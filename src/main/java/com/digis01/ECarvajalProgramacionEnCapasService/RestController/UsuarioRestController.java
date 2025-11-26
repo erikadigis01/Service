@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -191,7 +192,7 @@ public class UsuarioRestController {
      
      }
      
-    @GetMapping("/dinamico")
+    @PostMapping("/dinamico")
     public ResponseEntity GetAllDinamico(@RequestBody  UsuarioJPA usuario) {
     
         Result result = new Result();
@@ -219,5 +220,34 @@ public class UsuarioRestController {
         return ResponseEntity.status(result.status).body(result);
     }
     
-
+    @CrossOrigin(origins = "http://localhost:8081")
+    @PatchMapping("/updateStatus")
+    public ResponseEntity UpdateStatus(@RequestBody UsuarioJPA usuario){
+    
+        Result result = new Result();
+        
+        try {
+            
+            result = usuarioDAOImplementation.UpdateStatus(usuario);
+            result.correct = true;
+            
+            
+            result.errorMessage = "Se ctualizo el status";
+            result.status = 200;
+        
+        
+        
+        } catch (Exception ex) {//definir error en el servidor
+        
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+            result.status = 401;
+        
+        }
+    
+        return ResponseEntity.status(result.status).body(result);
+        
+    }
+    
 }

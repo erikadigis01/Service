@@ -7,7 +7,9 @@ import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,7 +17,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UsuarioDAOImplementation implements IUsuarioDAO{
 
-     @Autowired
+    @Autowired
     private EntityManager entityManager;
     
     @Override
@@ -237,31 +239,64 @@ public class UsuarioDAOImplementation implements IUsuarioDAO{
            
            //hacer los campos concatenados
            
-           String consulta = "FROM UsuarioJPA WHERE";
-           if(usuario.getNombre() != null) {
+            String consulta = " FROM UsuarioJPA ";
+            List<String> condiciones = new ArrayList<>();
+            Map<String, Object> params = new HashMap<>();
+           
+            if(usuario.getNombre() != null && !usuario.getNombre().isEmpty()) {
                
-               consulta =  consulta + " Nombre LIKE :valor1 ";
+               condiciones.add(" Nombre LIKE :nombre ");
+               params.put("nombre", "%" + usuario.getNombre() + "%");
            
-           }
-           if (usuario.getApellidoPaterno() != null) {
+            }
+           
+           if(usuario.getApellidoPaterno() != null && !usuario.getApellidoPaterno().isEmpty()) {
+           
+               condiciones.add(" ApellidoPaterno LIKE :apaterno ");
+               params.put("apaterno", "%" + usuario.getApellidoPaterno() + "%");
                
-               consulta = consulta + "or ApellidoPaterno LIKE : valor2 ";
+            }
+//           
+            if(usuario.getApellidoMaterno() != null && !usuario.getApellidoMaterno().isEmpty()) {
            
-           }
+               condiciones.add(" ApellidoMaterno LIKE :amaterno ");
+               params.put("amaterno", "%" + usuario.getApellidoMaterno() + "%");
+               
+            }
+          
+            if(usuario.Roll != null && !usuario.Roll.getNombreRoll().isEmpty()) {
            
+               condiciones.add(" Roll.NombreRoll LIKE :roll ");
+               params.put("roll", "%" + usuario.Roll.getNombreRoll() + "%");
            
-           TypedQuery<UsuarioJPA> queryUsuario = entityManager.createQuery(consulta, UsuarioJPA.class)
-                   .setParameter("valor1", "%" + usuario.getNombre() + "%");
+            }
             
-            //Resultado del JPA
+            if(usuario.getStatus()  == 1 || usuario.getStatus() == 0) {
+                
+                condiciones.add(" Status = :status ");
+                params.put("status", usuario.getStatus());
+            }
+           
+            String queryString = consulta;
+           
+            if(!condiciones.isEmpty()) {
+           
+               queryString += " WHERE " + String.join(" AND ",condiciones);
+               
+            }
+           
+            TypedQuery<UsuarioJPA> queryUsuario = entityManager.createQuery(queryString, UsuarioJPA.class);
+           
+            params.forEach(queryUsuario::setParameter);
+
             List<UsuarioJPA> usuariosJPA = queryUsuario.getResultList();
-            
+
             result.objects = new ArrayList<>();
-            
+
             result.objects = usuariosJPA.stream()
                                         .map(UsuarioJPA -> (Object) UsuarioJPA)
                                         .collect(Collectors.toList());
-           
+
             result.correct = true;
        
        
@@ -274,5 +309,41 @@ public class UsuarioDAOImplementation implements IUsuarioDAO{
        }
        
        return result;
+    }
+    
+    @Transactional
+    @Override
+    public Result UpdateStatus(UsuarioJPA usuario) {
+        Result result = new Result();
+        
+        try {
+        
+            int status = usuario.getStatus();
+            int idUsuario = usuario.getIdUsuario();
+
+            UsuarioJPA usuarioBuscar = entityManager.find(UsuarioJPA.class,idUsuario);
+
+            if(usuarioBuscar != null) {
+
+                usuarioBuscar.setStatus(status);
+                entityManager.merge(usuarioBuscar);
+                result.correct = true;
+                result.object = usuarioBuscar;
+
+            }else {
+
+                result.correct = false;
+                result.errorMessage = "usuario no encontrado";
+            }
+        
+        } catch(Exception ex) {
+            
+            result.correct = false;
+            result.errorMessage = ex.getLocalizedMessage();
+            result.ex = ex;
+        
+        }
+        
+        return result;
     }
 }
