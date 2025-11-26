@@ -1,6 +1,8 @@
 package com.digis01.ECarvajalProgramacionEnCapasService.DAO;
 
+import com.digis01.ECarvajalProgramacionEnCapasService.JPA.DireccionJPA;
 import com.digis01.ECarvajalProgramacionEnCapasService.JPA.Result;
+import com.digis01.ECarvajalProgramacionEnCapasService.JPA.RollJPA;
 import com.digis01.ECarvajalProgramacionEnCapasService.JPA.UsuarioJPA;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
@@ -97,8 +99,18 @@ public class UsuarioDAOImplementation implements IUsuarioDAO{
             } else {
             
                 //se actualiza
+//                usuario.Roll = new RollJPA();
+//                usuario.Roll.setIdRoll(usuariofind.Roll.getIdRoll());
+//                usuario.Roll.setNombreRoll(usuariofind.Roll.getNombreRoll());
+                usuario.setStatus(usuariofind.getStatus());
+                usuario.setImagen(usuariofind.getImagen());
+                usuario.setPassword(usuariofind.getPassword());
+                usuario.Direccion = new ArrayList<DireccionJPA>();
+                usuario.Direccion = usuariofind.Direccion;
                 
                 entityManager.merge(usuario);
+                result.correct = true;
+                result.object = usuario;
             
             }
         
