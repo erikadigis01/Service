@@ -12,51 +12,90 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.springframework.format.annotation.DateTimeFormat;
 
+@Valid
 @Entity
 @Table(name = "USUARIO")
-public class UsuarioJPA {
-
+public class UsuarioValidatorJPA {
+    
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idusuario")
     private int IdUsuario;
     
+    @Pattern(regexp="(?=.*[a-zA-ZñÑ])(?=.*[\\d])(?=.*[._-])^[a-zA-ZñÑ][a-zA-Z0-9_.-]+?$", message = "Su username debe contener Letras, numeros y caracteres especiales")
+    @NotNull(message = "El campo no puede ser nulo")
+    @NotBlank(message = "El campo debe contener datos")
+    @Size(min = 5, max = 17, message = "Limite de letras excedido, entre 5 y 20")
     @Column(name = "username", nullable = false, unique = true)
     private String UserName;
     
+    @NotNull(message = "El campo no puede ser nulo")
+    @NotBlank(message = "El campo debe contener datos")
+    @Size(min = 2, max = 20, message = "Limite de letras excedido, entre 2 y 20")
+    @Pattern(regexp = "^[a-zA-ZñÑ]+?$", message = "Solo se permiten letras")
     @Column(name = "nombre", nullable = false)
     private String Nombre;
     
+    @NotNull(message = "El campo no puede ser nulo")
+    @NotBlank(message = "El campo debe contener datos")
+    @Size(min = 2, max = 20, message = "Limite de letras excedido, entre 2 y 20")
+    @Pattern(regexp = "^[a-zA-ZñÑ]+?$", message = "Solo se permiten letras")
     @Column(name = "apellidopaterno", nullable = false)
     private String ApellidoPaterno;
     
+    @NotNull(message = "El campo no puede ser nulo")
+    @NotBlank(message = "El campo debe contener datos")
+    @Size(min = 2, max = 20, message = "Limite de letras excedido, entre 2 y 20")
+    @Pattern(regexp = "^[a-zA-ZñÑ]+?$", message = "Solo se permiten letras")
     @Column(name = "apellidomaterno", nullable = true)
     private String ApellidoMaterno;
     
+    @NotNull(message = "El campo no puede ser nulo")
+    @NotBlank(message = "El campo debe contener datos")
+    @Pattern(regexp = "(^[^\\s]+@+[a-zA-Z0-9_-]+[\\.]+[a-zA-Z0-9_-]+[\\.]+[a-zA-Z0-9_-]+$)", message = "Direccion de correo invalida")
     @Column(name = "email", nullable = false, unique = true)
     private String Email;
     
+    @NotNull(message = "El campo no puede ser nulo")
+    @NotBlank(message = "El campo debe contener datos")
     @Column(name = "password", nullable = false)
     private String Password;
     
+    @NotNull(message = "El campo no puede ser nulo")
+    @Past(message = "La fecha debe ser anterior al dia actual")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "fechanacimiento", nullable =  false)
     private Date FechaNacimiento;
     
+    @NotNull(message = "El campo no puede ser vacio")
     @Column(name = "sexo", nullable = false)
     private char Sexo;
     
+    @NotNull(message = "El campo no puede ser nulo")
+    @Pattern(regexp = "^\\+*([0-9]{2,3})*[\\s{1}]?[0-9]{10}$", message = "Numero de telefono no valido")
     @Column(name = "telefono", nullable = false)
     private String Telefono;
     
+    @NotNull(message = "El campo no puede ser nulo")
+    @Pattern(regexp = "^\\+*([0-9]{2,3})*[\\s{1}]?[0-9]{10}$", message = "Numero de celular no valido")
     @Column(name = "celular", nullable = true)
     private String Celular;
     
     
-    
+    @NotNull(message = "El campo no puede ser nulo")
+    @NotBlank(message = "El campo debe contener datos")
     @Column(name = "curp", nullable = true)
     private String Curp;
     
@@ -64,7 +103,7 @@ public class UsuarioJPA {
     @Column(name = "imagen", nullable = true)
     private String Imagen;
     
-    
+    @NotNull(message = "El campo no puede ser nulo")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idroll", nullable = true)
     public RollJPA Roll;
@@ -73,15 +112,16 @@ public class UsuarioJPA {
     @OneToMany(mappedBy = "UsuarioJPA", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<DireccionJPA> Direccion = new ArrayList<>();
     
+    @NotNull(message = "El campo no puede ser nulo")
     @Column(name = "status", nullable = true)
     private int Status;
     
     //Constructores 
-    public UsuarioJPA(){
+    public UsuarioValidatorJPA(){
     
     }
     
-    public UsuarioJPA( int IdUsuario, String UserName, String Nombre, String ApellidoPaterno, String ApellidoMaterno, String Email, 
+    public UsuarioValidatorJPA( int IdUsuario, String UserName, String Nombre, String ApellidoPaterno, String ApellidoMaterno, String Email, 
 
         String Password, Date FechaNacimiento, char Sexo, String Telefono, String Celular, String Curp, String Imagen, int Status){
         
@@ -209,5 +249,6 @@ public class UsuarioJPA {
         return Status;
         
     }
-     
+    
+
 }
