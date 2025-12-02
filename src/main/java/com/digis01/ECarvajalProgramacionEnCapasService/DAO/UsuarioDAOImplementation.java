@@ -4,6 +4,7 @@ import com.digis01.ECarvajalProgramacionEnCapasService.JPA.DireccionJPA;
 import com.digis01.ECarvajalProgramacionEnCapasService.JPA.Result;
 import com.digis01.ECarvajalProgramacionEnCapasService.JPA.RollJPA;
 import com.digis01.ECarvajalProgramacionEnCapasService.JPA.UsuarioJPA;
+import com.digis01.ECarvajalProgramacionEnCapasService.Service.PasswordEncoderService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
@@ -21,6 +22,9 @@ public class UsuarioDAOImplementation implements IUsuarioDAO{
 
     @Autowired
     private EntityManager entityManager;
+    
+    @Autowired
+    private PasswordEncoderService passwordEncoderService;
     
     @Override
     public Result GetAll() {
@@ -64,6 +68,8 @@ public class UsuarioDAOImplementation implements IUsuarioDAO{
            
            usuario.Direccion.get(0).UsuarioJPA  = usuario;
            //se agrega por defecto con 1
+           String encryptedPassword = passwordEncoderService.encodePassword(usuario.getPassword());
+           usuario.setPassword(encryptedPassword);
            usuario.setStatus(1);
            entityManager.persist(usuario);
         
