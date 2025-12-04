@@ -35,7 +35,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         
         List<GrantedAuthority> authorities = new ArrayList<>();
-        // Suponiendo que RollJPA tiene un campo nombre con valores como "ADMIN" o "ALUMNO"
         if (usuario.Roll != null) {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + usuario.Roll.getNombreRoll()));
         }

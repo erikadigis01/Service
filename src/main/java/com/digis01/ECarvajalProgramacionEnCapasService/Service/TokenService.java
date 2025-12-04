@@ -20,9 +20,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TokenService {
     
     private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private static final long EXPIRATION_TIME = 5 * 60 * 1000; // 5 minutos
+    private static final long EXPIRATION_TIME = 200 * 60 * 1000; // 200 minutos
     
-    // Almacén en memoria para tokens y su información
     private final Map<String, TokenInfo> tokenStore = new ConcurrentHashMap<>();
     
     public String generateToken(String username, Integer userId) {

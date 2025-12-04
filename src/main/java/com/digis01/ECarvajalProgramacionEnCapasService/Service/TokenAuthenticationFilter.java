@@ -40,7 +40,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                 
-                // Verificar si la operación cuenta para el límite
                 if (isOperationRequest(request)) {
                     tokenService.incrementOperationCount(token);
                 }
@@ -71,9 +70,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         String method = request.getMethod();
         String uri = request.getRequestURI();
         
-        // Contar solo operaciones de modificación en endpoints de usuario
         return ("POST".equals(method) || "PUT".equals(method) || "DELETE".equals(method)) 
                && uri.startsWith("/usuario") 
-               && !uri.contains("/cargaMasiva"); // Excluir carga masiva si es necesario
+               && !uri.contains("/cargaMasiva");
     }
 }
