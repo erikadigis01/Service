@@ -253,65 +253,47 @@ public class UsuarioDAOImplementation implements IUsuarioDAO{
 
     @Override
     public Result GetAllDinamico(UsuarioJPA usuario) {
-       Result result = new Result();
-       
-       try {
-           
-           //hacer los campos concatenados
-           
-            String consulta = " FROM UsuarioJPA ";
+        Result result = new Result();
+
+        try {
+            String consulta = "SELECT u FROM UsuarioJPA u";
             List<String> condiciones = new ArrayList<>();
             Map<String, Object> params = new HashMap<>();
-           
-            if(usuario.getNombre() != null && !usuario.getNombre().isEmpty()) {
-               
-               condiciones.add(" Nombre LIKE :nombre ");
-               params.put("nombre", "%" + usuario.getNombre() + "%");
-           
+
+            if (usuario.getNombre() != null && !usuario.getNombre().isEmpty()) {
+                condiciones.add("LOWER(u.Nombre) LIKE LOWER(:nombre)");
+                params.put("nombre", "%" + usuario.getNombre() + "%");
             }
-           
-           if(usuario.getApellidoPaterno() != null && !usuario.getApellidoPaterno().isEmpty()) {
-           
-               condiciones.add(" ApellidoPaterno LIKE :apaterno ");
-               params.put("apaterno", "%" + usuario.getApellidoPaterno() + "%");
-               
+
+            if (usuario.getApellidoPaterno() != null && !usuario.getApellidoPaterno().isEmpty()) {
+                condiciones.add("LOWER(u.ApellidoPaterno) LIKE LOWER(:apaterno)");
+                params.put("apaterno", "%" + usuario.getApellidoPaterno() + "%");
             }
-//           
-            if(usuario.getApellidoMaterno() != null && !usuario.getApellidoMaterno().isEmpty()) {
-           
-               condiciones.add(" ApellidoMaterno LIKE :amaterno ");
-               params.put("amaterno", "%" + usuario.getApellidoMaterno() + "%");
-               
+
+            if (usuario.getApellidoMaterno() != null && !usuario.getApellidoMaterno().isEmpty()) {
+                condiciones.add("LOWER(u.ApellidoMaterno) LIKE LOWER(:amaterno)");
+                params.put("amaterno", "%" + usuario.getApellidoMaterno() + "%");
             }
-          
-            if(usuario.Roll != null && !usuario.Roll.getNombreRoll().isEmpty()) {
-           
-               condiciones.add(" Roll.NombreRoll LIKE :roll ");
-               params.put("roll", "%" + usuario.Roll.getNombreRoll() + "%");
-           
+
+            if (usuario.Roll != null && usuario.Roll.getNombreRoll() != null && !usuario.Roll.getNombreRoll().isEmpty()) {
+                condiciones.add("LOWER(u.Roll.NombreRoll) LIKE LOWER(:roll)");
+                params.put("roll", "%" + usuario.Roll.getNombreRoll() + "%");
             }
-            
-            if(usuario.getStatus()  == 1 || usuario.getStatus() == 0) {
-                
-                condiciones.add(" Status = :status ");
+
+            if (usuario.getStatus() == 1 || usuario.getStatus() == 0) {
+                condiciones.add("u.Status = :status");
                 params.put("status", usuario.getStatus());
             }
-           
+
             String queryString = consulta;
-           
-            if(!condiciones.isEmpty()) {
-           
-               queryString += " WHERE " + String.join(" AND ",condiciones);
-               
+            if (!condiciones.isEmpty()) {
+                queryString += " WHERE " + String.join(" AND ", condiciones);
             }
-           
+
             TypedQuery<UsuarioJPA> queryUsuario = entityManager.createQuery(queryString, UsuarioJPA.class);
-           
             params.forEach(queryUsuario::setParameter);
 
             List<UsuarioJPA> usuariosJPA = queryUsuario.getResultList();
-
-            result.objects = new ArrayList<>();
 
             result.objects = usuariosJPA.stream()
                                         .map(UsuarioJPA -> (Object) UsuarioJPA)

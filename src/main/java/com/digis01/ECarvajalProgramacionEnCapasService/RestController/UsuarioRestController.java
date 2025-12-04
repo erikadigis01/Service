@@ -201,7 +201,7 @@ public class UsuarioRestController {
          return ResponseEntity.status(result.status).body(result);
      
      }
-     
+    
      @PatchMapping("/{idUsuario}")
      public ResponseEntity UpdateImagen(@RequestBody HashMap<String, Object> imagen,
              @PathVariable("idUsuario") int idUsuario) {
