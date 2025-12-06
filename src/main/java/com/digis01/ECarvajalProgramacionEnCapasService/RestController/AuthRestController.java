@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @CrossOrigin(origins = "http://localhost:8081")
 @RestController
@@ -37,6 +38,7 @@ public class AuthRestController {
     @Autowired
     private TokenService tokenService;
     
+    
     @PostMapping("/login")
     public ResponseEntity<Result> login(@RequestBody Map<String, String> credentials) {
         Result result = new Result();
@@ -46,10 +48,10 @@ public class AuthRestController {
             String password = credentials.get("password");
             
             // Autenticar usuario
-            Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password)
-            );
             
+            Authentication authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(username, password));
+
             SecurityContextHolder.getContext().setAuthentication(authentication);
             
             // Obtener UserDetails

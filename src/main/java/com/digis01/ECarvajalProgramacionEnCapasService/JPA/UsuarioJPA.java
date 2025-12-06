@@ -76,6 +76,9 @@ public class UsuarioJPA {
     @Column(name = "status", nullable = true)
     private int Status;
     
+    @Column(name = "isverified", nullable = true)
+    private int IsVerified;
+    
     //Constructores 
     public UsuarioJPA(){
     
@@ -83,7 +86,7 @@ public class UsuarioJPA {
     
     public UsuarioJPA( int IdUsuario, String userName, String Nombre, String ApellidoPaterno, String ApellidoMaterno, String Email, 
 
-        String Password, Date FechaNacimiento, char Sexo, String Telefono, String Celular, String Curp, String Imagen, int Status){
+        String Password, Date FechaNacimiento, char Sexo, String Telefono, String Celular, String Curp, String Imagen, int Status, int IsVerified){
         
         this.IdUsuario = IdUsuario;
         this.userName = userName;
@@ -99,6 +102,7 @@ public class UsuarioJPA {
         this.Curp = Curp;
         this.Imagen = Imagen;
         this.Status = Status;
+        this.IsVerified = IsVerified;
       
     }
     //Getters y setters
@@ -207,6 +211,17 @@ public class UsuarioJPA {
     public int getStatus(){
     
         return Status;
+        
+    }
+    
+    public void setIsVerified(int IsVerified){
+        
+        this.IsVerified = IsVerified;
+    
+    }
+    public int getIsVerified(){
+    
+        return IsVerified;
         
     }
      
