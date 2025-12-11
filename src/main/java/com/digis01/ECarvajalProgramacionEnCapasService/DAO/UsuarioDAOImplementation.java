@@ -4,15 +4,20 @@ import com.digis01.ECarvajalProgramacionEnCapasService.JPA.DireccionJPA;
 import com.digis01.ECarvajalProgramacionEnCapasService.JPA.Result;
 import com.digis01.ECarvajalProgramacionEnCapasService.JPA.RollJPA;
 import com.digis01.ECarvajalProgramacionEnCapasService.JPA.UsuarioJPA;
+import com.digis01.ECarvajalProgramacionEnCapasService.JPA.VerificationToken;
+import com.digis01.ECarvajalProgramacionEnCapasService.Repository.VerificationTokenRepository;
+import com.digis01.ECarvajalProgramacionEnCapasService.Service.EmailService;
 import com.digis01.ECarvajalProgramacionEnCapasService.Service.PasswordEncoderService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -25,6 +30,12 @@ public class UsuarioDAOImplementation implements IUsuarioDAO{
     
     @Autowired
     private PasswordEncoderService passwordEncoderService;
+    
+    @Autowired
+    private VerificationTokenRepository tokenRepository;
+    
+    @Autowired
+    private EmailService emailService;
     
     @Override
     public Result GetAll() {
@@ -71,9 +82,20 @@ public class UsuarioDAOImplementation implements IUsuarioDAO{
            String encryptedPassword = passwordEncoderService.encodePassword(usuario.getPassword());
            usuario.setPassword(encryptedPassword);
            usuario.setStatus(1);
+           usuario.setIsVerified(0);
            entityManager.persist(usuario);
         
-        
+            // Crear token
+            String token = UUID.randomUUID().toString();
+            VerificationToken verificationToken = new VerificationToken();
+            verificationToken.setToken(token);
+            verificationToken.setUsuario(usuario);
+            verificationToken.setExpiryDate(LocalDateTime.now().plusHours(24));
+            tokenRepository.save(verificationToken);
+           
+            // Enviar correo
+            emailService.sendVerificationEmail(usuario, token);
+            
            result.correct =  true;
          
        
