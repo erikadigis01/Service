@@ -1,6 +1,7 @@
 package com.digis01.ECarvajalProgramacionEnCapasService.JPA;
 
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,19 +13,22 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
 
-@Table(name = "VERIFICATION_TOKEN")
+@Table(name = "VERIFICATIONTOKEN")
 @Entity
 public class VerificationToken {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idtoken")
     private Long IdToken;
-
+    
+    @Column(name = "token")
     private String token;
 
     @OneToOne
     @JoinColumn(name = "idusuario")
     private UsuarioJPA Usuario;
-
+    
+    @Column(name = "expirydate")
     private LocalDateTime ExpiryDate;
     
     public VerificationToken(){}

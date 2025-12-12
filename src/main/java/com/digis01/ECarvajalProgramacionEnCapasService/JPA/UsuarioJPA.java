@@ -38,7 +38,7 @@ public class UsuarioJPA {
     private String ApellidoMaterno;
     
     @Column(name = "email", nullable = false, unique = true)
-    private String Email;
+    private String email;
     
     @Column(name = "password", nullable = false)
     private String Password;
@@ -50,7 +50,7 @@ public class UsuarioJPA {
     private char Sexo;
     
     @Column(name = "telefono", nullable = false)
-    private String Telefono;
+    private String telefono;
     
     @Column(name = "celular", nullable = true)
     private String Celular;
@@ -84,20 +84,20 @@ public class UsuarioJPA {
     
     }
     
-    public UsuarioJPA( int IdUsuario, String userName, String Nombre, String ApellidoPaterno, String ApellidoMaterno, String Email, 
+    public UsuarioJPA( int IdUsuario, String userName, String Nombre, String ApellidoPaterno, String ApellidoMaterno, String email, 
 
-        String Password, Date FechaNacimiento, char Sexo, String Telefono, String Celular, String Curp, String Imagen, int Status, int IsVerified){
+        String Password, Date FechaNacimiento, char Sexo, String telefono, String Celular, String Curp, String Imagen, int Status, int IsVerified){
         
         this.IdUsuario = IdUsuario;
         this.userName = userName;
         this.Nombre = Nombre;
         this.ApellidoPaterno = ApellidoPaterno;
         this.ApellidoMaterno = ApellidoMaterno;      
-        this.Email = Email;
+        this.email = email;
         this.Password = Password;
         this.FechaNacimiento = FechaNacimiento;
         this.Sexo = Sexo;
-        this.Telefono = Telefono;
+        this.telefono = telefono;
         this.Celular = Celular;
         this.Curp = Curp;
         this.Imagen = Imagen;
@@ -142,12 +142,12 @@ public class UsuarioJPA {
         return ApellidoMaterno;
     }
     
-    public void setEmail(String Email){
-        this.Email = Email;
+    public void setEmail(String email){
+        this.email = email;
     }
     
     public String getEmail(){
-        return Email;
+        return email;
     }
     
     public void setPassword(String Password){
@@ -171,11 +171,11 @@ public class UsuarioJPA {
         return Sexo;
     }
     
-    public void setTelefono(String Telefono){
-        this.Telefono = Telefono;
+    public void setTelefono(String telefono){
+        this.telefono = telefono;
     }
     public String getTelefono(){
-        return Telefono;
+        return telefono;
     }
     
     public void setCelular(String Celular){

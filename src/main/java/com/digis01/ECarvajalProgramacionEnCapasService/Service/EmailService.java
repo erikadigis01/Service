@@ -16,7 +16,7 @@ public class EmailService {
     private JavaMailSender mailSender;
 
     public void sendVerificationEmail(UsuarioJPA usuario, String token) {
-        String url = "http://localhost:8080/verify?token=" + token;
+        String url = "http://localhost:8081/verify?token=" + token;
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(usuario.getEmail());
         message.setSubject("Verifica tu cuenta");

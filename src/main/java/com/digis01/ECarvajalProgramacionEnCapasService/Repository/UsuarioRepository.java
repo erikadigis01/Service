@@ -6,17 +6,14 @@ package com.digis01.ECarvajalProgramacionEnCapasService.Repository;
 
 import com.digis01.ECarvajalProgramacionEnCapasService.JPA.UsuarioJPA;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
  @Repository
     public interface UsuarioRepository extends JpaRepository<UsuarioJPA, Long> {
 
-    // Buscar usuario por email
-    @Query("SELECT u FROM UsuarioJPA u WHERE u.Email = ?1")
     UsuarioJPA findByEmail(String email);
 
     boolean existsByEmail(String email);
     
-    boolean existsByPhone(String Telefono);
+    boolean existsByTelefono(String Telefono);
 }
