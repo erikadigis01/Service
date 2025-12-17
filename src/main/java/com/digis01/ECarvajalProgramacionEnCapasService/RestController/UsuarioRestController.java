@@ -348,6 +348,7 @@ public class UsuarioRestController {
                     //regresar un dato que le indique al usuario si su archivo es valido o no
                     result.correct = true;
                     result.status = 200;
+                    result.errorMessage = "Archivo correcto";
                 
                 } catch (IOException  ex) {
                 
@@ -478,11 +479,11 @@ public class UsuarioRestController {
                     + valoresLog.get(2) + "|"
                     + valoresLog.get(3) + "|"
                     + valoresLog.get(4) + "|"
-                    + valoresLog.get(5) + "|"
-                    + valoresLog.get(6) + "|");
+                    + valoresLog.get(5) + "|");
             
             
-            
+            bufferWriter.flush();
+            bufferWriter.close(); 
             resultLog.correct = true;
             
                     

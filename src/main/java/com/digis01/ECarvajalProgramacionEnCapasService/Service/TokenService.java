@@ -53,7 +53,7 @@ public class TokenService {
         }
         
         // Verificar límite de operaciones
-        if (tokenInfo.getOperationCount() >= 5) {
+        if (tokenInfo.getOperationCount() >= 100) {
             tokenStore.remove(token);
             return false;
         }

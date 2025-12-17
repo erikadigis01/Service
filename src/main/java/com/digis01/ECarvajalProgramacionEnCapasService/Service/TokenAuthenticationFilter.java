@@ -71,7 +71,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         String uri = request.getRequestURI();
         
         return ("POST".equals(method) || "PUT".equals(method) || "DELETE".equals(method)) 
-               && uri.startsWith("/usuario") 
-               && !uri.contains("/cargaMasiva");
+               && uri.startsWith("/usuario");
     }
 }
