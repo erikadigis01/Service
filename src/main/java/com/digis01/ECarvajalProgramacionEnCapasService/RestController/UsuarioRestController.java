@@ -473,7 +473,7 @@ public class UsuarioRestController {
             }
             
             //Escribir en el log los valores
-            
+            bufferWriter.newLine();
             bufferWriter.write(valoresLog.get(0) + "|" 
                     + valoresLog.get(1) + "|" 
                     + valoresLog.get(2) + "|"

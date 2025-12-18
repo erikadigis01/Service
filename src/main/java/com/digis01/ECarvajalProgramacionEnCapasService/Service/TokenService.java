@@ -5,13 +5,14 @@
 package com.digis01.ECarvajalProgramacionEnCapasService.Service;
 
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.util.Base64;
 import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -40,35 +41,72 @@ public class TokenService {
     }
     
     public boolean validateToken(String token) {
-        if (!tokenStore.containsKey(token)) {
+        
+        try {
+            // Ya no usamos un Map, validamos la FIRMA del token
+            Jwts.parserBuilder()
+                .setSigningKey(SECRET_KEY)
+                .build()
+                .parseClaimsJws(token);
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            System.err.println("Token inválido o expirado: " + e.getMessage());
             return false;
         }
-        
-        TokenInfo tokenInfo = tokenStore.get(token);
-        
-        // Verificar expiración
-        if (isTokenExpired(tokenInfo)) {
-            tokenStore.remove(token);
-            return false;
-        }
-        
-        // Verificar límite de operaciones
-        if (tokenInfo.getOperationCount() >= 100) {
-            tokenStore.remove(token);
-            return false;
-        }
-        
-        return true;
+//        if (!tokenStore.containsKey(token)) {
+//            return false;
+//        }
+//        
+//        TokenInfo tokenInfo = tokenStore.get(token);
+//        
+//        // Verificar expiración
+//        if (isTokenExpired(tokenInfo)) {
+//            tokenStore.remove(token);
+//            return false;
+//        }
+//        
+//        // Verificar límite de operaciones
+//        if (tokenInfo.getOperationCount() >= 100) {
+//            tokenStore.remove(token);
+//            return false;
+//        }
+//        
+//        return true;
     }
     
     public String getUsernameFromToken(String token) {
-        TokenInfo tokenInfo = tokenStore.get(token);
-        return tokenInfo != null ? tokenInfo.getUsername() : null;
+//        TokenInfo tokenInfo = tokenStore.get(token);
+//        return tokenInfo != null ? tokenInfo.getUsername() : null;
+        try {
+        Claims claims = Jwts.parserBuilder()
+            .setSigningKey(SECRET_KEY)
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
+            
+        return claims.getSubject();
+        } catch (Exception e) {
+            System.err.println("No se pudo extraer el usuario del token: " + e.getMessage());
+            return null;
+        }
     }
     
     public Integer getUserIdFromToken(String token) {
-        TokenInfo tokenInfo = tokenStore.get(token);
-        return tokenInfo != null ? tokenInfo.getUserId() : null;
+//        TokenInfo tokenInfo = tokenStore.get(token);
+//        return tokenInfo != null ? tokenInfo.getUserId() : null;
+
+        try {
+        Claims claims = Jwts.parserBuilder()
+            .setSigningKey(SECRET_KEY)
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
+            
+        return claims.get("userId", Integer.class);
+        } catch (Exception e) {
+            System.err.println("No se pudo extraer el ID de usuario del token: " + e.getMessage());
+            return null;
+        }
     }
     
     public void incrementOperationCount(String token) {
